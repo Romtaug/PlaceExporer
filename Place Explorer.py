@@ -286,8 +286,8 @@ print("\n")
 smtp_server = "smtp.gmail.com"
 port = 465  # SSL
 sender_email = "taugourdea@cy-tech.fr"
-password = "rtaug2002*"
-receiver_email = "afgadazi@gmail.com"
+password = "" # De votre email
+receiver_email = "romtaug@gmail.com"
 server = smtplib.SMTP_SSL(smtp_server, port)
 server.login(sender_email, password)
 
