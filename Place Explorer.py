@@ -96,14 +96,14 @@ def search_places(api_key, location, category, max_results=10):
 # emergency : # banks # atms # police_stations # fire_stations # hospitals # urgent_care_centers
 # administrative : # post_offices # city_halls # courthouses # embassies # government_offices # community_centers
 # car : gas_stations # auto_repair_shops # parking_lots # car_wash # car_rentals
-api_key = 'AIzaSyAyUJjhcjpgG9MIZceqkfjnznN00SYi9gQ'
+api_key = 'AIzaSyDPjUfGM6RFs9aTXNx4rs2rNIiP-5yjR2I'
 location='Paris, France'
 max_results=5
 print("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
 
-print("\n\nEating/Drinking:")
-print(search_places(api_key, location, 'restaurants', max_results))
-search_places(api_key, location, 'bars', max_results)
+#print("\n\nEating/Drinking:")
+#print(search_places(api_key, location, 'restaurants', max_results))
+#search_places(api_key, location, 'bars', max_results)
 #search_places(api_key, location, 'cafes', max_results=10)
 """
 print("\n\nVisiting :")
@@ -244,8 +244,11 @@ def to_send(api_key, location, max_results=5):
     
     # Ajout de l'incitation à planifier avec My Maps
     email_content += "🗺️ Planifiez votre aventure parfaite avec My Maps pour une expérience personnalisée et sans tracas ! Commencez ici : https://www.google.com/mymaps\n\n"
-    email_content += "Nous espérons que vous trouverez ces recommandations utiles pour un voyage mémorable. Bon voyage ! 🌍✨ N'hésitez pas à faire un don PayPal à l'adresse romtaug@gmail.com."
-    
+    email_content += "🏨 Pour découvrir une variété d'options d'hébergement, de véhicules de location, et pour vous inspirer de destinations pour votre séjour, nous vous recommandons de visiter Booking.com. Comparez et réservez facilement en cliquant sur le lien suivant : [Réservez maintenant sur Booking.com](https://www.booking.com)\n\n"
+    email_content += "🌟 Pour des avis de voyageurs et des recommandations personnalisées, n'hésitez pas à consulter TripAdvisor. Cliquez ici pour explorer : [Explorez TripAdvisor](https://www.tripadvisor.com)\n\n"
+    email_content += "🏡 Découvrez également des options uniques d'hébergement local sur Airbnb. Parfait pour des séjours personnalisés et confortables. Réservez ici : [Réservez sur Airbnb](https://www.airbnb.com)\n\n"
+    email_content += "🌍✨ Nous espérons que vous trouverez ces recommandations utiles pour un voyage mémorable. Bon voyage ! N'hésitez pas à faire un don PayPal à l'adresse romtaug@gmail.com.\n"
+           
     return email_content.format(location=location)
 
 ##############################################################################################################################
@@ -286,8 +289,8 @@ print("\n")
 smtp_server = "smtp.gmail.com"
 port = 465  # SSL
 sender_email = "taugourdea@cy-tech.fr"
-password = "" # De votre email
-receiver_email = ""
+password = "rtaug2002*"
+receiver_email = "romtaug@gmail.com"
 server = smtplib.SMTP_SSL(smtp_server, port)
 server.login(sender_email, password)
 
