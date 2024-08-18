@@ -1,5 +1,24 @@
 # Ajoutez météo et la température juillet, aout
 
+# Ajoutez météo et la température juillet, aout
+# Si la clé API Google Places a expiré ou n'est plus valide :
+# 1. Accédez à Google Cloud Platform : https://console.cloud.google.com/
+# 2. Créez un nouveau projet ou sélectionnez un projet existant.
+# 3. Dans le menu de navigation, allez dans "API et services" > "Bibliothèque".
+# 4. Recherchez et sélectionnez l'API "Places API" (Google Places API).
+# 5. Cliquez sur "Activer" pour activer l'API pour votre projet.
+# 6. Une fois l'API activée, allez dans "API et services" > "Identifiants" pour créer une clé API.
+# 7. Copiez la clé API générée et collez-la dans la variable `api_key` du programme.
+
+# Pour autoriser l'accès à l'email via des applications moins sécurisées :
+# 1. Connectez-vous à votre compte Gmail : https://mail.google.com/
+# 2. Cliquez sur l'icône de votre profil en haut à droite, puis sur "Gérer votre compte Google".
+# 3. Dans le menu à gauche, allez dans "Sécurité".
+# 4. Sous la section "Accès de l'application moins sécurisée", activez l'option "Accès autorisé".
+#    (Note : Cette option peut ne pas être disponible si l'authentification à deux facteurs est activée.
+#     Dans ce cas, vous devrez créer un mot de passe spécifique à l'application.)
+# 5. Utilisez cette adresse email et le mot de passe associé dans le programme.
+
 import requests
 import time
 from prettytable import PrettyTable
