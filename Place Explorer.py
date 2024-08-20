@@ -115,7 +115,7 @@ def search_places(api_key, location, category, max_results=10):
 # emergency : # banks # atms # police_stations # fire_stations # hospitals # urgent_care_centers
 # administrative : # post_offices # city_halls # courthouses # embassies # government_offices # community_centers
 # car : gas_stations # auto_repair_shops # parking_lots # car_wash # car_rentals
-api_key = 'AIzaSyDPjUfGM6RFs9aTXNx4rs2rNIiP-5yjR2I'
+api_key = ''
 location='Paris, France'
 max_results=5
 print("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
@@ -141,8 +141,8 @@ print("-------------------------------------------------------------------------
 
 print("\n\nBuying:")
 search_places(api_key, location, 'boutiques', max_results)
-search_places(api_key, location, 'markets', max_results)
-search_places(api_key, location, 'supermarkets', max_results)
+search_places(_key, location, 'markets', max_results)
+search_places(_key, location, 'supermarkets', max_results)
 print("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
 
 
@@ -272,11 +272,11 @@ def to_send(api_key, location, max_results=5):
 
 ##############################################################################################################################
 # APIs
-api_key = 'AIzaSyAyUJjhcjpgG9MIZceqkfjnznN00SYi9gQ'  # API Events
-api_key2 = 'de1470253d46ffd4259f9cfd0d430cea'  # API Meteo
+api_key = ''  # API Events
+api_key2 = ''  # API Meteo
 # API vols
-api_key3 = 'ojkwuc6SaBcIziwDlxNbv6xmMYGxsA9a'
-api_secret3 = 'oRaoDqd4bwOAksPs'
+api_key3 = ''
+api_secret3 = ''
 #############################################################################################################################
 # Vol
 origin = 'CDG'
