@@ -1,6 +1,4 @@
 # Ajoutez météo et la température juillet, aout
-
-# Ajoutez météo et la température juillet, aout
 # Si la clé API Google Places a expiré ou n'est plus valide :
 # 1. Accédez à Google Cloud Platform : https://console.cloud.google.com/
 # 2. Créez un nouveau projet ou sélectionnez un projet existant.
@@ -8,7 +6,8 @@
 # 4. Recherchez et sélectionnez l'API "Places API" (Google Places API).
 # 5. Cliquez sur "Activer" pour activer l'API pour votre projet.
 # 6. Une fois l'API activée, allez dans "API et services" > "Identifiants" pour créer une clé API.
-# 7. Copiez la clé API générée et collez-la dans la variable `api_key` du programme.
+# 7. Copiez la clé API générée et collez-la dans la variable `api_key` du programme ci-après :
+api_key = '' # API Events
 
 # Pour autoriser l'accès à l'email via des applications moins sécurisées :
 # 1. Connectez-vous à votre compte Gmail : https://mail.google.com/
@@ -29,7 +28,9 @@ from email.mime.base import MIMEBase
 from email import encoders
 import sys
 import os
-
+from datetime import datetime
+import pyperclip
+#
 ###########################################################################################################################
 #Places 
 def get_place_details(place_id, api_key):
@@ -115,7 +116,7 @@ def search_places(api_key, location, category, max_results=10):
 # emergency : # banks # atms # police_stations # fire_stations # hospitals # urgent_care_centers
 # administrative : # post_offices # city_halls # courthouses # embassies # government_offices # community_centers
 # car : gas_stations # auto_repair_shops # parking_lots # car_wash # car_rentals
-api_key = ''
+api_key = 'AIzaSyCiSj34tlTAQMLU5CSd0ebZYzob5Ly1lzo'
 location='Paris, France'
 max_results=5
 print("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
@@ -141,8 +142,8 @@ print("-------------------------------------------------------------------------
 
 print("\n\nBuying:")
 search_places(api_key, location, 'boutiques', max_results)
-search_places(_key, location, 'markets', max_results)
-search_places(_key, location, 'supermarkets', max_results)
+search_places(api_key, location, 'markets', max_results)
+search_places(api_key, location, 'supermarkets', max_results)
 print("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
 
 
@@ -222,20 +223,26 @@ def prepare_email_body(api_key, location, category, max_results=5):
     return table.get_string()
 
 def to_send(api_key, location, max_results=5):
+    
+    current_month = datetime.now().strftime("%B")
+    prompt = f"Je suis à la recherche d'expériences véritablement extraordinaires et uniques à {location} en {current_month} : des activités incontournables et originales qui offrent de super souvenir. Je veux découvrir tout ce qui vaut vraiment la peine d'être vécu, des joyaux cachés aux expériences emblématiques de la ville, afin de ne rien regretter de mon séjour. Fais un top 30."
+    pyperclip.copy(prompt)
+    
     # Initialisation du contenu de l'email avec une touche accueillante et enthousiaste
-    email_content = f"🌟✈️ Bienvenue à bord de Place Explorer ! ✈️🌟\nPréparez-vous à découvrir les merveilles de {location}, une destination rêvée pour des aventures inoubliables. Voici un guide exclusif des meilleures attractions pour rendre votre séjour magique et mémorable (si les tableaux sont erronés n'hesitez pas à consulter le fichier 'PlaceExplorer.txt'ci-joint :\n\n"
+    email_content = f"🌟✈️ Bienvenue à bord de Place Explorer ! ✈️🌟\n\nPréparez-vous à découvrir les merveilles de {location}, une destination rêvée pour des aventures inoubliables. Voici un guide exclusif des meilleures attractions pour rendre votre séjour magique et mémorable. (Si les tableaux sont erronés, n'hésitez pas à consulter le fichier 'PlaceExplorer.txt' ci-joint.)\n\n"
+    
     email_content += get_current_weather(api_key2, location)
     email_content += search_cheapest_flight(get_access_token(api_key3, api_secret3), origin, destination, date, 1, 0)
     email_content += "\n\n"
-    # Les catégories suivantes utilisent la même structure : ajout de la description avec émojis et appel à prepare_email_body pour générer le contenu
     
+    # Les catégories suivantes utilisent la même structure : ajout de la description avec émojis et appel à prepare_email_body pour générer le contenu
     categories = {
         'historical_sites': '🏛️ Plongez dans l\'histoire avec ces sites historiques captivants, témoins du passé glorieux de {location} :\n',
         'parks': '🌳 Respirez l\'air frais dans les plus beaux parcs, idéaux pour une pause nature en plein cœur de la ville :\n',
         'museums': '🖼️ Cultivez votre esprit en visitant ces musées fascinants, où art et culture se rencontrent :\n',
         'restaurants': '🍴 Dégustez les délices culinaires dans les meilleurs restaurants que {location} a à offrir :\n',
         'bars': '🍹 Vibrez au rythme de la nuit dans nos bars recommandés, parfaits pour des soirées animées :\n',
-        'movie_theaters': '🎬 Profitez d\'une soirée cinéma dans des salles sélectionnées pour leur confort et qualité:\n',
+        'movie_theaters': '🎬 Profitez d\'une soirée cinéma dans des salles sélectionnées pour leur confort et qualité :\n',
         'concert_halls': '🎶 Vivez des moments mémorables lors de concerts inoubliables dans nos salles recommandées :\n',
         'nightclubs': '💃 Dansez jusqu\'au bout de la nuit dans les boîtes de nuit les plus en vogue de {location} :\n',
         'boutiques': '🛍️ Faites du shopping dans les boutiques les plus chics pour des trouvailles uniques et tendance :\n',
@@ -255,28 +262,29 @@ def to_send(api_key, location, max_results=5):
     # Générer la section pour chaque catégorie
     count = 20
     for key, intro in categories.items():
-        email_content += intro
+        email_content += intro.format(location=location)
         email_content += prepare_email_body(api_key, location, key, max_results) + "\n\n"
-        print(count)  # Afficher le compteur
+        print(count)
         count -= 1  # Décrémenter le compteur
 
-    
     # Ajout de l'incitation à planifier avec My Maps
-    email_content += "🗺️ Planifiez votre aventure parfaite avec My Maps pour une expérience personnalisée et sans tracas ! Commencez ici : https://www.google.com/mymaps\n\n"
-    email_content += "🏨 Pour découvrir une variété d'options d'hébergement, de véhicules de location, et pour vous inspirer de destinations pour votre séjour, nous vous recommandons de visiter Booking.com. Comparez et réservez facilement en cliquant sur le lien suivant : [Réservez maintenant sur Booking.com](https://www.booking.com)\n\n"
-    email_content += "🌟 Pour des avis de voyageurs et des recommandations personnalisées, n'hésitez pas à consulter TripAdvisor. Cliquez ici pour explorer : [Explorez TripAdvisor](https://www.tripadvisor.com)\n\n"
-    email_content += "🏡 Découvrez également des options uniques d'hébergement local sur Airbnb. Parfait pour des séjours personnalisés et confortables. Réservez ici : [Réservez sur Airbnb](https://www.airbnb.com)\n\n"
+    email_content += f"Pour ne rater aucun élément, tapez le prompt sur [chatGPT](https://chatgpt.com), A l'exécution de ce programme le prompt sera direcetement copié pour le coller directement : \"Je suis à la recherche d'expériences véritablement extraordinaires et uniques à {location} en {current_month} : des activités incontournables et originales qui offrent de super souvenir. Je veux découvrir tout ce qui vaut vraiment la peine d'être vécu, des joyaux cachés aux expériences extra-ordinaires, afin de ne rien regretter de mon séjour. Fais un top 30.\"\n\n"
+    
+    email_content += "🗺️ Planifiez votre aventure parfaite avec My Maps pour une expérience personnalisée et sans tracas ! Commencez ici : [Google My Maps](https://www.google.com/mymaps)\n\n"
+    email_content += "🏨 Pour découvrir une variété d'options d'hébergement, de véhicules de location, et pour vous inspirer de destinations pour votre séjour, nous vous recommandons de visiter [Booking.com](https://www.booking.com).\n\n"
+    email_content += "🌟 Pour des avis de voyageurs et des recommandations personnalisées, n'hésitez pas à consulter [TripAdvisor](https://www.tripadvisor.com).\n\n"
+    email_content += "🏡 Découvrez également des options uniques d'hébergement local sur [Airbnb](https://www.airbnb.com). Parfait pour des séjours personnalisés et confortables.\n\n"
     email_content += "🌍✨ Nous espérons que vous trouverez ces recommandations utiles pour un voyage mémorable. Bon voyage ! N'hésitez pas à faire un don PayPal à l'adresse romtaug@gmail.com.\n"
-           
+
     return email_content.format(location=location)
+
 
 ##############################################################################################################################
 # APIs
-api_key = ''  # API Events
-api_key2 = ''  # API Meteo
+api_key2 = 'de1470253d46ffd4259f9cfd0d430cea'  # API Meteo
 # API vols
-api_key3 = ''
-api_secret3 = ''
+api_key3 = 'ojkwuc6SaBcIziwDlxNbv6xmMYGxsA9a'
+api_secret3 = 'oRaoDqd4bwOAksPs'
 #############################################################################################################################
 # Vol
 origin = 'CDG'
@@ -297,7 +305,7 @@ print(search_places(api_key, location, 'restaurants', max_results))
 print(get_current_weather(api_key2, location))
 print(search_cheapest_flight(get_access_token(api_key3, api_secret3), origin, destination, date, 1, 0))
 
-print("\n\nVoici le message a envoyer (soyez patient le programme peut mettre du temps à s'exécuter) :\n")
+print("\n\nVoici le message a envoyer, soyez patient le programme peut mettre du temps à s'exécuter, attendez la fin du compteur :\n")
 email_body = to_send(api_key, location, max_results)
 print(email_body)
 print("\n")
@@ -344,12 +352,17 @@ body = email_body
 msg.attach(MIMEText(body, 'plain', 'utf-8'))  # Spécification de l'encodage UTF-8
 
 ######################################################################################################
-def save_to_directory(content, filename):
-    # Utiliser un chemin relatif pour sauvegarder le fichier dans le même dossier que le script
-    # '__file__' est une variable spéciale utilisée pour obtenir le chemin du script courant
-    directory_path = os.path.dirname(os.path.abspath(__file__))
-
-    full_path = os.path.join(directory_path, filename)
+def save_to_directory(content, filename, directory="Content"):
+    """
+    Sauvegarde le fichier dans un dossier nommé 'content'.
+    Si le dossier n'existe pas, il est créé.
+    """
+    # Créer le dossier 'content' s'il n'existe pas
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    
+    # Combine le chemin du dossier avec le nom du fichier
+    full_path = os.path.join(directory, filename)
 
     # Écrire le contenu dans le fichier
     try:
@@ -372,9 +385,9 @@ def attach_file_to_email(msg, file_path):
     msg.attach(part)
 
 # Nom du fichier à sauvegarder et chemin
-filename = "PlaceExplorer.txt"
+filename = f"PlaceExplorer_{location.replace(' ', '_')}.txt"
 file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
-save_to_directory(email_body, filename)
+save_to_directory(content, filename, directory="Content")
 
 # Attacher le fichier
 attach_file_to_email(msg, file_path)
@@ -383,7 +396,7 @@ attach_file_to_email(msg, file_path)
 # Envoi de l'e-mail
 print("\nEnvoi de l'email...")# Envoi de l'e-mail
 server.send_message(msg)
-print(f"Email sent successfully to {receiver_email} for the location {location}!")
+print(f"Email envoyé avec succès à {receiver_email} pour l'emplacement {location} !")
 
 # Fermeture de la connexion
 server.quit()
