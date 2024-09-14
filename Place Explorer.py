@@ -385,11 +385,12 @@ def attach_file_to_email(msg, file_path):
     msg.attach(part)
 
 # Nom du fichier à sauvegarder et chemin
+content = email_body  # Le contenu que tu veux enregistrer dans le fichier
 filename = f"PlaceExplorer_{location.replace(' ', '_')}.txt"
-file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
 save_to_directory(content, filename, directory="Content")
 
 # Attacher le fichier
+file_path = os.path.join("Content", filename)
 attach_file_to_email(msg, file_path)
 
 ##################################################################################################
