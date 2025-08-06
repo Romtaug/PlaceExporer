@@ -316,7 +316,7 @@ print("\n")
 smtp_server = "smtp.gmail.com"
 port = 465  # SSL
 sender_email = "taugourdea@cy-tech.fr"
-password = "rtaug2002*"
+password = ""
 receiver_email = "romtaug@gmail.com"
 server = smtplib.SMTP_SSL(smtp_server, port)
 server.login(sender_email, password)
@@ -401,3 +401,4 @@ print(f"Email envoyé avec succès à {receiver_email} pour l'emplacement {locat
 
 # Fermeture de la connexion
 server.quit()
+
